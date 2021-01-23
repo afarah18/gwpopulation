@@ -9,10 +9,16 @@ from .models.redshift import _Redshift, total_four_volume
 class _BaseVT(object):
     def __init__(self, model, data):
         self.data = data
+        self.model_is_gwdist_gen = False
         if isinstance(model, list):
             model = Model(model)
         elif not isinstance(model, Model):
-            model = Model([model])
+            from gwdistributions import generators
+            if isinstance(model, generators.EventGenerator):
+                self.model_is_gwdist_gen = True
+                pass
+            else:
+                model = Model([model])
         self.model = model
 
     def __call__(self, *args, **kwargs):
@@ -44,9 +50,15 @@ class ResamplingVT(_BaseVT):
         self.total_injections = data.get("total_generated", len(data["prior"]))
         self.analysis_time = data.get("analysis_time", 1)
         self.redshift_model = None
-        for _model in self.model.models:
-            if isinstance(_model, _Redshift):
-                self.redshift_model = _model
+        if self.model_is_gwdist_gen:
+            from gwdistributions import distributions
+            for _model in self.model.generators:
+                if isinstance(_model,distributions.RedshiftDistribution):
+                    self.redshift_model = _model
+        else:
+            for _model in self.model.models:
+                if isinstance(_model, _Redshift):
+                    self.redshift_model = _model
         if self.redshift_model is None:
             self._surveyed_hypervolume = total_four_volume(
                 lamb=0, analysis_time=self.analysis_time
