@@ -1,0 +1,35 @@
+﻿gwpopulation.backend
+====================
+
+.. currentmodule:: gwpopulation.backend
+
+.. automodule:: gwpopulation.backend
+
+   
+   
+   
+
+   
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+      :toctree:
+   
+      disable_cupy
+      enable_cupy
+      modules_to_update
+      set_backend
+   
+   
+
+   
+   
+   
+
+   
+   
+   
+
+
+

@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>gwpopulation.utils &mdash; GWPopulation 0.1.dev1+g45dddb8 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=19f00094" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../_static/documentation_options.js?v=44c16a2b"></script>
+        <script src="../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            GWPopulation
+          </a>
+              <div class="version">
+                0.1
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">API:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../_autosummary/gwpopulation.models.html">gwpopulation.models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../_autosummary/gwpopulation.backend.html">gwpopulation.backend</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../_autosummary/gwpopulation.conversions.html">gwpopulation.conversions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../_autosummary/gwpopulation.hyperpe.html">gwpopulation.hyperpe</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../_autosummary/gwpopulation.utils.html">gwpopulation.utils</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../_autosummary/gwpopulation.vt.html">gwpopulation.vt</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Examples:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../GWTC1.html">Population Inference on GWTC-1</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">GWPopulation</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">gwpopulation.utils</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for gwpopulation.utils</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Helper functions for probability distributions.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">from</span> <span class="nn">numbers</span> <span class="kn">import</span> <span class="n">Number</span>
+<span class="kn">from</span> <span class="nn">operator</span> <span class="kn">import</span> <span class="n">eq</span><span class="p">,</span> <span class="n">ge</span><span class="p">,</span> <span class="n">gt</span><span class="p">,</span> <span class="n">le</span><span class="p">,</span> <span class="n">lt</span><span class="p">,</span> <span class="n">ne</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">scipy</span> <span class="kn">import</span> <span class="n">special</span> <span class="k">as</span> <span class="n">scs</span>
+
+<span class="n">xp</span> <span class="o">=</span> <span class="n">np</span>
+
+
+<div class="viewcode-block" id="apply_conditions">
+<a class="viewcode-back" href="../../_autosummary/gwpopulation.utils.apply_conditions.html#gwpopulation.utils.apply_conditions">[docs]</a>
+<span class="k">def</span> <span class="nf">apply_conditions</span><span class="p">(</span><span class="n">conditions</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A decorator to apply conditions to inputs of a function.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ==========</span>
+<span class="sd">    func: callable</span>
+<span class="sd">        The function to decorate.</span>
+<span class="sd">    conditions: dict</span>
+<span class="sd">        A dictionary of conditions to apply to the function. The keys are the</span>
+<span class="sd">        argument names and the values are the conditions. The conditions can be</span>
+<span class="sd">        should be in the form (op, value) where op is a comparison operator and</span>
+<span class="sd">        value is the value to compare to. The conditions can also be a callable</span>
+<span class="sd">        which takes the value as an argument and returns a boolean. The variable</span>
+<span class="sd">        must be specified as a keyword argument for the test to be applied.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">wraps</span>
+
+    <span class="k">def</span> <span class="nf">decorator</span><span class="p">(</span><span class="n">func</span><span class="p">):</span>
+        <span class="nd">@wraps</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>
+        <span class="k">def</span> <span class="nf">wrapped_function</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+            <span class="k">if</span> <span class="s2">&quot;jax&quot;</span> <span class="ow">in</span> <span class="n">xp</span><span class="o">.</span><span class="vm">__name__</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">func</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">condition</span> <span class="ow">in</span> <span class="n">conditions</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+                    <span class="n">value</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">continue</span>
+                <span class="k">if</span> <span class="nb">callable</span><span class="p">(</span><span class="n">condition</span><span class="p">):</span>
+                    <span class="k">if</span> <span class="ow">not</span> <span class="n">condition</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>
+                        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Condition </span><span class="si">{</span><span class="n">condition</span><span class="si">}</span><span class="s2"> not met&quot;</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">op</span><span class="p">,</span> <span class="n">val</span> <span class="o">=</span> <span class="n">condition</span>
+                    <span class="k">if</span> <span class="s2">&quot;cupy&quot;</span> <span class="ow">in</span> <span class="n">xp</span><span class="o">.</span><span class="vm">__name__</span><span class="p">:</span>
+                        <span class="n">value</span> <span class="o">=</span> <span class="n">xp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="nb">callable</span><span class="p">(</span><span class="n">op</span><span class="p">):</span>
+                        <span class="k">if</span> <span class="ow">not</span> <span class="n">xp</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">op</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">val</span><span class="p">)):</span>
+                            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                                <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">value</span><span class="si">}</span><span class="s2"> does not satisfy </span><span class="si">{</span><span class="n">op</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">&quot;</span>
+                            <span class="p">)</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Operator </span><span class="si">{</span><span class="n">op</span><span class="si">}</span><span class="s2"> not supported&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">func</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">wrapped_function</span>
+
+    <span class="k">return</span> <span class="n">decorator</span></div>
+
+
+
+<div class="viewcode-block" id="beta_dist">
+<a class="viewcode-back" href="../../_autosummary/gwpopulation.utils.beta_dist.html#gwpopulation.utils.beta_dist">[docs]</a>
+<span class="nd">@apply_conditions</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="p">(</span><span class="n">gt</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">beta</span><span class="o">=</span><span class="p">(</span><span class="n">gt</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">scale</span><span class="o">=</span><span class="p">(</span><span class="n">gt</span><span class="p">,</span> <span class="mi">0</span><span class="p">)))</span>
+<span class="k">def</span> <span class="nf">beta_dist</span><span class="p">(</span><span class="n">xx</span><span class="p">,</span> <span class="n">alpha</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Beta distribution probability</span>
+
+<span class="sd">    .. math::</span>
+<span class="sd">        p(x) = \frac{x^{\alpha - 1} (x_\max - x)^{\beta - 1}}{B(\alpha, \beta) x_\max^{\alpha + \beta + 1}}</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    xx: float, array-like</span>
+<span class="sd">        The abscissa values (:math:`x`)</span>
+<span class="sd">    alpha: float</span>
+<span class="sd">        The Beta alpha parameter (:math:`\alpha`)</span>
+<span class="sd">    beta: float</span>
+<span class="sd">        The Beta beta parameter (:math:`\beta`)</span>
+<span class="sd">    scale: float, array-like</span>
+<span class="sd">        A scale factor for the distribution of the distribution (:math:`x_\max`)</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    prob: float, array-like</span>
+<span class="sd">        The distribution evaluated at `xx`</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">ln_beta</span> <span class="o">=</span> <span class="p">(</span><span class="n">alpha</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">xp</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">xx</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="n">beta</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">xp</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">scale</span> <span class="o">-</span> <span class="n">xx</span><span class="p">)</span>
+    <span class="n">ln_beta</span> <span class="o">-=</span> <span class="n">scs</span><span class="o">.</span><span class="n">betaln</span><span class="p">(</span><span class="n">alpha</span><span class="p">,</span> <span class="n">beta</span><span class="p">)</span>
+    <span class="n">ln_beta</span> <span class="o">-=</span> <span class="p">(</span><span class="n">alpha</span> <span class="o">+</span> <span class="n">beta</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">xp</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">scale</span><span class="p">)</span>
+    <span class="n">prob</span> <span class="o">=</span> <span class="n">xp</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">ln_beta</span><span class="p">)</span>
+    <span class="n">prob</span> <span class="o">=</span> <span class="n">xp</span><span class="o">.</span><span class="n">nan_to_num</span><span class="p">(</span><span class="n">prob</span><span class="p">)</span>
+    <span class="n">prob</span> <span class="o">*=</span> <span class="p">(</span><span class="n">xx</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">xx</span> <span class="o">&lt;=</span> <span class="n">scale</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">prob</span></div>
+
+
+
+<div class="viewcode-block" id="powerlaw">
+<a class="viewcode-back" href="../../_autosummary/gwpopulation.utils.powerlaw.html#gwpopulation.utils.powerlaw">[docs]</a>
+<span class="nd">@apply_conditions</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span><span class="n">low</span><span class="o">=</span><span class="p">(</span><span class="n">ge</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">alpha</span><span class="o">=</span><span class="p">(</span><span class="n">ne</span><span class="p">,</span> <span class="mi">1</span><span class="p">)))</span>
+<span class="k">def</span> <span class="nf">powerlaw</span><span class="p">(</span><span class="n">xx</span><span class="p">,</span> <span class="n">alpha</span><span class="p">,</span> <span class="n">high</span><span class="p">,</span> <span class="n">low</span><span class="p">):</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Power-law probability</span>
+
+<span class="sd">    .. math::</span>
+<span class="sd">        p(x) = \frac{1 + \alpha}{x_\max^{1 + \alpha} - x_\min^{1 + \alpha}} x^\alpha</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    xx: float, array-like</span>
+<span class="sd">        The abscissa values (:math:`x`)</span>
+<span class="sd">    alpha: float, array-like</span>
+<span class="sd">        The spectral index of the distribution (:math:`\alpha`)</span>
+<span class="sd">    high: float, array-like</span>
+<span class="sd">        The maximum of the distribution (:math:`x_\min`)</span>
+<span class="sd">    low: float, array-like</span>
+<span class="sd">        The minimum of the distribution (:math:`x_\max`)</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    prob: float, array-like</span>
+<span class="sd">        The distribution evaluated at `xx`</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">norm</span> <span class="o">=</span> <span class="n">xp</span><span class="o">.</span><span class="n">where</span><span class="p">(</span>
+        <span class="n">xp</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">alpha</span><span class="p">)</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span>
+        <span class="mi">1</span> <span class="o">/</span> <span class="n">xp</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">high</span> <span class="o">/</span> <span class="n">low</span><span class="p">),</span>
+        <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">alpha</span><span class="p">)</span> <span class="o">/</span> <span class="n">xp</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">high</span> <span class="o">**</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">alpha</span><span class="p">)</span> <span class="o">-</span> <span class="n">low</span> <span class="o">**</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">alpha</span><span class="p">)),</span>
+    <span class="p">)</span>
+    <span class="n">prob</span> <span class="o">=</span> <span class="n">xp</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">xx</span><span class="p">,</span> <span class="n">alpha</span><span class="p">)</span>
+    <span class="n">prob</span> <span class="o">*=</span> <span class="n">norm</span>
+    <span class="n">prob</span> <span class="o">*=</span> <span class="p">(</span><span class="n">xx</span> <span class="o">&lt;=</span> <span class="n">high</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">xx</span> <span class="o">&gt;=</span> <span class="n">low</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">prob</span></div>
+
+
+
+<div class="viewcode-block" id="truncnorm">
+<a class="viewcode-back" href="../../_autosummary/gwpopulation.utils.truncnorm.html#gwpopulation.utils.truncnorm">[docs]</a>
+<span class="nd">@apply_conditions</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span><span class="n">sigma</span><span class="o">=</span><span class="p">(</span><span class="n">gt</span><span class="p">,</span> <span class="mi">0</span><span class="p">)))</span>
+<span class="k">def</span> <span class="nf">truncnorm</span><span class="p">(</span><span class="n">xx</span><span class="p">,</span> <span class="n">mu</span><span class="p">,</span> <span class="n">sigma</span><span class="p">,</span> <span class="n">high</span><span class="p">,</span> <span class="n">low</span><span class="p">):</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Truncated normal probability</span>
+
+<span class="sd">    .. math::</span>
+<span class="sd">        p(x) =</span>
+<span class="sd">        \sqrt{\frac{2}{\pi\sigma^2}}</span>
+<span class="sd">        \left[\text{erf}\left(\frac{x_\max - \mu}{\sqrt{2}}\right) + \text{erf}\left(\frac{\mu - x_\min}{\sqrt{2}}\right)\right]^{-1}</span>
+<span class="sd">        \exp\left(-\frac{(\mu - x)^2}{2 \sigma^2}\right)</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    xx: float, array-like</span>
+<span class="sd">        The abscissa values (:math:`x`)</span>
+<span class="sd">    mu: float, array-like</span>
+<span class="sd">        The mean of the normal distribution (:math:`\mu`)</span>
+<span class="sd">    sigma: float</span>
+<span class="sd">        The standard deviation of the distribution (:math:`\sigma`)</span>
+<span class="sd">    high: float, array-like</span>
+<span class="sd">        The maximum of the distribution (:math:`x_\min`)</span>
+<span class="sd">    low: float, array-like</span>
+<span class="sd">        The minimum of the distribution (:math:`x_\max`)</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    prob: float, array-like</span>
+<span class="sd">        The distribution evaluated at `xx`</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">norm</span> <span class="o">=</span> <span class="mi">2</span><span class="o">**</span><span class="mf">0.5</span> <span class="o">/</span> <span class="n">xp</span><span class="o">.</span><span class="n">pi</span><span class="o">**</span><span class="mf">0.5</span> <span class="o">/</span> <span class="n">sigma</span>
+    <span class="n">norm</span> <span class="o">/=</span> <span class="n">scs</span><span class="o">.</span><span class="n">erf</span><span class="p">((</span><span class="n">high</span> <span class="o">-</span> <span class="n">mu</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="o">**</span><span class="mf">0.5</span> <span class="o">/</span> <span class="n">sigma</span><span class="p">)</span> <span class="o">+</span> <span class="n">scs</span><span class="o">.</span><span class="n">erf</span><span class="p">(</span>
+        <span class="p">(</span><span class="n">mu</span> <span class="o">-</span> <span class="n">low</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="o">**</span><span class="mf">0.5</span> <span class="o">/</span> <span class="n">sigma</span>
+    <span class="p">)</span>
+    <span class="n">prob</span> <span class="o">=</span> <span class="n">xp</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">xp</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">xx</span> <span class="o">-</span> <span class="n">mu</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">sigma</span><span class="o">**</span><span class="mi">2</span><span class="p">))</span>
+    <span class="n">prob</span> <span class="o">*=</span> <span class="n">norm</span>
+    <span class="n">prob</span> <span class="o">*=</span> <span class="p">(</span><span class="n">xx</span> <span class="o">&lt;=</span> <span class="n">high</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">xx</span> <span class="o">&gt;=</span> <span class="n">low</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">prob</span></div>
+
+
+
+<div class="viewcode-block" id="unnormalized_2d_gaussian">
+<a class="viewcode-back" href="../../_autosummary/gwpopulation.utils.unnormalized_2d_gaussian.html#gwpopulation.utils.unnormalized_2d_gaussian">[docs]</a>
+<span class="k">def</span> <span class="nf">unnormalized_2d_gaussian</span><span class="p">(</span><span class="n">xx</span><span class="p">,</span> <span class="n">yy</span><span class="p">,</span> <span class="n">mu_x</span><span class="p">,</span> <span class="n">mu_y</span><span class="p">,</span> <span class="n">sigma_x</span><span class="p">,</span> <span class="n">sigma_y</span><span class="p">,</span> <span class="n">covariance</span><span class="p">):</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute the probability distribution for a correlated 2-dimensional Gaussian</span>
+<span class="sd">    neglecting normalization terms.</span>
+
+<span class="sd">    .. math::</span>
+<span class="sd">        \ln p(x) = (x - \mu_{x} y - \mu_{y}) \Sigma^{-1} (x - \mu_x y - \mu_{y})^{T} \\</span>
+<span class="sd">        \Sigma = \begin{bmatrix}</span>
+<span class="sd">                \sigma^{2}_{x} &amp; \rho \sigma_{x} \sigma_{y} \\</span>
+<span class="sd">                \rho \sigma_{x} \sigma_{y} &amp; \sigma^{2}_{y}</span>
+<span class="sd">            \end{bmatrix}</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    xx: array-like</span>
+<span class="sd">        Input data in first dimension (:math:`x`)</span>
+<span class="sd">    yy: array-like</span>
+<span class="sd">        Input data in second dimension (:math:`y`)</span>
+<span class="sd">    mu_x: float</span>
+<span class="sd">        Mean in the first dimension (:math:`\mu_{x}`)</span>
+<span class="sd">    sigma_x: float</span>
+<span class="sd">        Standard deviation in the first dimension (:math:`\sigma_{x}`)</span>
+<span class="sd">    mu_y: float</span>
+<span class="sd">        Mean in the second dimension (:math:`\mu_{y}`)</span>
+<span class="sd">    sigma_y: float</span>
+<span class="sd">        Standard deviation in the second dimension (:math:`\sigma_{y}`)</span>
+<span class="sd">    covariance: float</span>
+<span class="sd">        The normalized covariance (bounded in [0, 1]) (:math:`\rho`)</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    prob: array-like</span>
+<span class="sd">        The unnormalized probability distribution (:math:`p(x)`)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">determinant</span> <span class="o">=</span> <span class="n">sigma_x</span><span class="o">**</span><span class="mi">2</span> <span class="o">*</span> <span class="n">sigma_y</span><span class="o">**</span><span class="mi">2</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">covariance</span><span class="p">)</span>
+    <span class="n">residual_x</span> <span class="o">=</span> <span class="p">(</span><span class="n">mu_x</span> <span class="o">-</span> <span class="n">xx</span><span class="p">)</span> <span class="o">*</span> <span class="n">sigma_y</span>
+    <span class="n">residual_y</span> <span class="o">=</span> <span class="p">(</span><span class="n">mu_y</span> <span class="o">-</span> <span class="n">yy</span><span class="p">)</span> <span class="o">*</span> <span class="n">sigma_x</span>
+    <span class="n">prob</span> <span class="o">=</span> <span class="n">xp</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span>
+        <span class="o">-</span><span class="p">(</span><span class="n">residual_x</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">residual_y</span><span class="o">**</span><span class="mi">2</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">residual_x</span> <span class="o">*</span> <span class="n">residual_y</span> <span class="o">*</span> <span class="n">covariance</span><span class="p">)</span>
+        <span class="o">/</span> <span class="mi">2</span>
+        <span class="o">/</span> <span class="n">determinant</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="n">prob</span></div>
+
+
+
+<div class="viewcode-block" id="von_mises">
+<a class="viewcode-back" href="../../_autosummary/gwpopulation.utils.von_mises.html#gwpopulation.utils.von_mises">[docs]</a>
+<span class="k">def</span> <span class="nf">von_mises</span><span class="p">(</span><span class="n">xx</span><span class="p">,</span> <span class="n">mu</span><span class="p">,</span> <span class="n">kappa</span><span class="p">):</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    PDF of the von Mises distribution defined on the standard interval.</span>
+
+<span class="sd">    .. math::</span>
+<span class="sd">        p(x) =</span>
+<span class="sd">        \frac{\exp\left( \kappa \cos(x - \mu) \right)}{2 \pi \mathcal{I}_{0}(\kappa)}</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    xx: array-like</span>
+<span class="sd">        Input points at which to evaluate the distribution</span>
+<span class="sd">    mu: float</span>
+<span class="sd">        The mean of the distribution</span>
+<span class="sd">    kappa: float</span>
+<span class="sd">        The scale parameter</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    array-like</span>
+<span class="sd">        The probability</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    For numerical stability, the factor of `exp(kappa)` from using `i0e`</span>
+<span class="sd">    is accounted for in the numerator</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">xp</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">kappa</span> <span class="o">*</span> <span class="p">(</span><span class="n">xp</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">xx</span> <span class="o">-</span> <span class="n">mu</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">xp</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">scs</span><span class="o">.</span><span class="n">i0e</span><span class="p">(</span><span class="n">kappa</span><span class="p">))</span></div>
+
+
+
+<div class="viewcode-block" id="get_version_information">
+<a class="viewcode-back" href="../../_autosummary/gwpopulation.utils.get_version_information.html#gwpopulation.utils.get_version_information">[docs]</a>
+<span class="k">def</span> <span class="nf">get_version_information</span><span class="p">():</span>
+    <span class="kn">from</span> <span class="nn">gwpopulation</span> <span class="kn">import</span> <span class="n">__version__</span>
+
+    <span class="k">return</span> <span class="n">__version__</span></div>
+
+
+
+<div class="viewcode-block" id="get_name">
+<a class="viewcode-back" href="../../_autosummary/gwpopulation.utils.get_name.html#gwpopulation.utils.get_name">[docs]</a>
+<span class="k">def</span> <span class="nf">get_name</span><span class="p">(</span><span class="nb">input</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Attempt to find the name of the the input. This either returns</span>
+<span class="sd">    :code:`input.__name__` or :code:`input.__class__.__name__`</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ==========</span>
+<span class="sd">    input: any</span>
+<span class="sd">        The input to find the name for.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    =======</span>
+<span class="sd">    str: The name of the input.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="s2">&quot;__name__&quot;</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">input</span><span class="o">.</span><span class="vm">__name__</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="nb">input</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span></div>
+
+
+
+<div class="viewcode-block" id="to_number">
+<a class="viewcode-back" href="../../_autosummary/gwpopulation.utils.to_number.html#gwpopulation.utils.to_number">[docs]</a>
+<span class="k">def</span> <span class="nf">to_number</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">func</span><span class="p">):</span>
+    <span class="k">if</span> <span class="s2">&quot;jax&quot;</span> <span class="ow">in</span> <span class="n">xp</span><span class="o">.</span><span class="vm">__name__</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">value</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">func</span><span class="p">(</span><span class="n">value</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="to_numpy">
+<a class="viewcode-back" href="../../_autosummary/gwpopulation.utils.to_numpy.html#gwpopulation.utils.to_numpy">[docs]</a>
+<span class="k">def</span> <span class="nf">to_numpy</span><span class="p">(</span><span class="n">array</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Convert an array to a numpy array.</span>
+<span class="sd">    Numeric types and pandas objects are returned unchanged.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ==========</span>
+<span class="sd">    array: array-like</span>
+<span class="sd">        The array to convert.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">array</span><span class="p">,</span> <span class="p">(</span><span class="n">Number</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)):</span>
+        <span class="k">return</span> <span class="n">array</span>
+    <span class="k">elif</span> <span class="s2">&quot;cupy&quot;</span> <span class="ow">in</span> <span class="n">array</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__module__</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">xp</span><span class="o">.</span><span class="n">asnumpy</span><span class="p">(</span><span class="n">array</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="s2">&quot;pandas&quot;</span> <span class="ow">in</span> <span class="n">array</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__module__</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">array</span>
+    <span class="k">elif</span> <span class="s2">&quot;jax&quot;</span> <span class="ow">in</span> <span class="n">array</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__module__</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">array</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Cannot convert </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">array</span><span class="p">)</span><span class="si">}</span><span class="s2"> to numpy array&quot;</span><span class="p">)</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Colm Talbot.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

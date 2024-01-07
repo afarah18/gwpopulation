@@ -1,0 +1,29 @@
+gwpopulation.vt.ResamplingVT
+============================
+
+.. currentmodule:: gwpopulation.vt
+
+.. autoclass:: ResamplingVT
+   :members:
+   :show-inheritance:
+   :inherited-members:
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~ResamplingVT.__init__
+      ~ResamplingVT.check_convergence
+      ~ResamplingVT.detection_efficiency
+      ~ResamplingVT.surveyed_hypervolume
+      ~ResamplingVT.vt_factor
+   
+   
+
+   
+   
+   
