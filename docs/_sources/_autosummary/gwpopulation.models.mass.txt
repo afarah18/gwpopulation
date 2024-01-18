@@ -19,6 +19,8 @@ gwpopulation.models.mass
       double_power_law_peak_primary_mass
       double_power_law_primary_mass
       double_power_law_primary_power_law_mass_ratio
+      power_law_dip_break
+      power_law_dip_break_1d
       power_law_mass
       power_law_primary_mass_ratio
       power_law_primary_secondary_identical

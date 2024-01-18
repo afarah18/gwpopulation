@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>gwpopulation.models.mass.two_component_single &mdash; GWPopulation 0.1.dev1+gac82dbb documentation</title>
+  <title>gwpopulation.models.mass.power_law_dip_break_1d &mdash; GWPopulation 0.1.dev1+gac82dbb documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=fa44fd50" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=19f00094" />
 
@@ -24,8 +24,8 @@
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="gwpopulation.models.mass.BaseSmoothedMassDistribution" href="gwpopulation.models.mass.BaseSmoothedMassDistribution.html" />
-    <link rel="prev" title="gwpopulation.models.mass.two_component_primary_secondary_independent" href="gwpopulation.models.mass.two_component_primary_secondary_independent.html" /> 
+    <link rel="next" title="gwpopulation.models.mass.power_law_mass" href="gwpopulation.models.mass.power_law_mass.html" />
+    <link rel="prev" title="gwpopulation.models.mass.power_law_dip_break" href="gwpopulation.models.mass.power_law_dip_break.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -59,7 +59,10 @@
 <li class="toctree-l3"><a class="reference internal" href="gwpopulation.models.mass.double_power_law_primary_mass.html">gwpopulation.models.mass.double_power_law_primary_mass</a></li>
 <li class="toctree-l3"><a class="reference internal" href="gwpopulation.models.mass.double_power_law_primary_power_law_mass_ratio.html">gwpopulation.models.mass.double_power_law_primary_power_law_mass_ratio</a></li>
 <li class="toctree-l3"><a class="reference internal" href="gwpopulation.models.mass.power_law_dip_break.html">gwpopulation.models.mass.power_law_dip_break</a></li>
-<li class="toctree-l3"><a class="reference internal" href="gwpopulation.models.mass.power_law_dip_break_1d.html">gwpopulation.models.mass.power_law_dip_break_1d</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">gwpopulation.models.mass.power_law_dip_break_1d</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#gwpopulation.models.mass.power_law_dip_break_1d"><code class="docutils literal notranslate"><span class="pre">power_law_dip_break_1d()</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="gwpopulation.models.mass.power_law_mass.html">gwpopulation.models.mass.power_law_mass</a></li>
 <li class="toctree-l3"><a class="reference internal" href="gwpopulation.models.mass.power_law_primary_mass_ratio.html">gwpopulation.models.mass.power_law_primary_mass_ratio</a></li>
 <li class="toctree-l3"><a class="reference internal" href="gwpopulation.models.mass.power_law_primary_secondary_identical.html">gwpopulation.models.mass.power_law_primary_secondary_identical</a></li>
@@ -68,10 +71,7 @@
 <li class="toctree-l3"><a class="reference internal" href="gwpopulation.models.mass.two_component_primary_mass_ratio.html">gwpopulation.models.mass.two_component_primary_mass_ratio</a></li>
 <li class="toctree-l3"><a class="reference internal" href="gwpopulation.models.mass.two_component_primary_secondary_identical.html">gwpopulation.models.mass.two_component_primary_secondary_identical</a></li>
 <li class="toctree-l3"><a class="reference internal" href="gwpopulation.models.mass.two_component_primary_secondary_independent.html">gwpopulation.models.mass.two_component_primary_secondary_independent</a></li>
-<li class="toctree-l3 current"><a class="current reference internal" href="#">gwpopulation.models.mass.two_component_single</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#gwpopulation.models.mass.two_component_single"><code class="docutils literal notranslate"><span class="pre">two_component_single()</span></code></a></li>
-</ul>
-</li>
+<li class="toctree-l3"><a class="reference internal" href="gwpopulation.models.mass.two_component_single.html">gwpopulation.models.mass.two_component_single</a></li>
 <li class="toctree-l3"><a class="reference internal" href="gwpopulation.models.mass.BaseSmoothedMassDistribution.html">gwpopulation.models.mass.BaseSmoothedMassDistribution</a></li>
 <li class="toctree-l3"><a class="reference internal" href="gwpopulation.models.mass.BrokenPowerLawPeakSmoothedMassDistribution.html">gwpopulation.models.mass.BrokenPowerLawPeakSmoothedMassDistribution</a></li>
 <li class="toctree-l3"><a class="reference internal" href="gwpopulation.models.mass.BrokenPowerLawSmoothedMassDistribution.html">gwpopulation.models.mass.BrokenPowerLawSmoothedMassDistribution</a></li>
@@ -111,9 +111,9 @@
       <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="gwpopulation.models.html">gwpopulation.models</a></li>
           <li class="breadcrumb-item"><a href="gwpopulation.models.mass.html">gwpopulation.models.mass</a></li>
-      <li class="breadcrumb-item active">gwpopulation.models.mass.two_component_single</li>
+      <li class="breadcrumb-item active">gwpopulation.models.mass.power_law_dip_break_1d</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="../_sources/_autosummary/gwpopulation.models.mass.two_component_single.txt" rel="nofollow"> View page source</a>
+            <a href="../_sources/_autosummary/gwpopulation.models.mass.power_law_dip_break_1d.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
@@ -121,32 +121,52 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="gwpopulation-models-mass-two-component-single">
-<h1>gwpopulation.models.mass.two_component_single<a class="headerlink" href="#gwpopulation-models-mass-two-component-single" title="Link to this heading"></a></h1>
+  <section id="gwpopulation-models-mass-power-law-dip-break-1d">
+<h1>gwpopulation.models.mass.power_law_dip_break_1d<a class="headerlink" href="#gwpopulation-models-mass-power-law-dip-break-1d" title="Link to this heading"></a></h1>
 <dl class="py function">
-<dt class="sig sig-object py" id="gwpopulation.models.mass.two_component_single">
-<span class="sig-prename descclassname"><span class="pre">gwpopulation.models.mass.</span></span><span class="sig-name descname"><span class="pre">two_component_single</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mass</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mmin</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mmax</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lam</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mpp</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sigpp</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gaussian_mass_maximum</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/gwpopulation/models/mass.html#two_component_single"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gwpopulation.models.mass.two_component_single" title="Link to this definition"></a></dt>
-<dd><p>Power law model for one-dimensional mass distribution with a Gaussian component.</p>
+<dt class="sig sig-object py" id="gwpopulation.models.mass.power_law_dip_break_1d">
+<span class="sig-prename descclassname"><span class="pre">gwpopulation.models.mass.</span></span><span class="sig-name descname"><span class="pre">power_law_dip_break_1d</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mass</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">A</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">NSmin</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">NSmax</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">BHmin</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">BHmax</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mbreak</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha_1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha_2</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/gwpopulation/models/mass.html#power_law_dip_break_1d"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gwpopulation.models.mass.power_law_dip_break_1d" title="Link to this definition"></a></dt>
+<dd><p>the single-mass distribution considered in Fishbach, Essick, Holz. Does
+Matter Matter? ApJ Lett 899, 1 (2020) : arXiv:2006.13178</p>
 <div class="math notranslate nohighlight">
-\[ \begin{align}\begin{aligned}p(m) &amp;= (1 - \lambda_m) p_{\text{pow}} + \lambda_m p_{\text{norm}}\\p_{\text{pow}}(m) &amp;\propto m^{-\alpha} : m_\min \leq m &lt; m_\max\\p_{\text{norm}}(m) &amp;\propto \exp\left(-\frac{(m - \mu_{m})^2}{2\sigma^2_m}\right)\end{aligned}\end{align} \]</div>
+\[\begin{split}p(m|\lambda) = n(m|\gamma_{\text{low}}, \gamma_{\text{high}}, A) \times
+    l(m|m_{\text{max}}, \eta) \\
+         \times \begin{cases}
+                 &amp; m^{\alpha_1} \text{ if } m &lt; \gamma_{\text{low}} \\
+                 &amp; m^{\alpha_2} \text{ if } m &gt; \gamma_{\text{low}} \\
+                 &amp; 0 \text{ otherwise }
+         \end{cases}.\end{split}\]</div>
+<p>where $l(m|m_{text{max}}, eta)$ is the low pass filter with powerlaw $eta$
+applied at mass $m_{text{max}}$,
+$n(m|gamma_{text{low}}, gamma_{text{high}}, A)$ is the notch
+filter with depth $A$ applied between $gamma_{text{low}}$ and 
+$gamma_{text{high}}$, and
+$lambda$ is the subset of hyperparameters ${ gamma_{text{low}},
+gamma_{text{high}}, A, alpha_1, alpha_2, m_{text{min}}, m_{text{max}}}$.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>mass: array-like</strong></dt><dd><p>Array of mass values (<span class="math notranslate nohighlight">\(m\)</span>).</p>
+<dt><strong>mass: array-like</strong></dt><dd><p>Mass to evaluate probability at (<span class="math notranslate nohighlight">\(m\)</span>).</p>
 </dd>
-<dt><strong>alpha: float</strong></dt><dd><p>Negative power law exponent for the black hole distribution (<span class="math notranslate nohighlight">\(\alpha\)</span>).</p>
+<dt><strong>alpha_1: float</strong></dt><dd><p>Powerlaw exponent for compact object below break (<span class="math notranslate nohighlight">\(\alpha_1\)</span>).</p>
 </dd>
-<dt><strong>mmin: float</strong></dt><dd><p>Minimum black hole mass (<span class="math notranslate nohighlight">\(m_\min\)</span>).</p>
+<dt><strong>alpha_2: float</strong></dt><dd><p>Powerlaw exponent for compact object above break (<span class="math notranslate nohighlight">\(\alpha_2\)</span>).</p>
 </dd>
-<dt><strong>mmax: float</strong></dt><dd><p>Maximum black hole mass (<span class="math notranslate nohighlight">\(m_\max\)</span>).</p>
+<dt><strong>mbreak: float</strong></dt><dd><p>Mass at which the power law exponent switches from alpha_1 to alpha_2.
+Pinned for now to be at BHmin (<span class="math notranslate nohighlight">\(\m_{break}\)</span>).</p>
 </dd>
-<dt><strong>lam: float</strong></dt><dd><p>Fraction of black holes in the Gaussian component (<span class="math notranslate nohighlight">\(\lambda_m\)</span>).</p>
+<dt><strong>NSmin: float</strong></dt><dd><p>Minimum compact object mass (<span class="math notranslate nohighlight">\(m_\min\)</span>).</p>
 </dd>
-<dt><strong>mpp: float</strong></dt><dd><p>Mean of the Gaussian component (<span class="math notranslate nohighlight">\(\mu_m\)</span>).</p>
+<dt><strong>NSmax: float</strong></dt><dd><p>Mass at which the notch filter starts (<span class="math notranslate nohighlight">\(\gamma_{low}\)</span>)</p>
 </dd>
-<dt><strong>sigpp: float</strong></dt><dd><p>Standard deviation of the Gaussian component (<span class="math notranslate nohighlight">\(\sigma_m\)</span>).</p>
+<dt><strong>BHmin: float</strong></dt><dd><p>Mass at which the notch filter ends (<span class="math notranslate nohighlight">\(\gamma_{high}\)</span>)</p>
 </dd>
-<dt><strong>gaussian_mass_maximum: float, optional</strong></dt><dd><p>Upper truncation limit of the Gaussian component. (default: 100)</p>
+<dt><strong>BHmax: float</strong></dt><dd><p>Maximum mass in the powerlaw distributed component (<span class="math notranslate nohighlight">\(m_\max\)</span>).</p>
+</dd>
+<dt><strong>n{0,1,2,3}: float</strong></dt><dd><p>Exponents to set the sharpness of the low mass cutoff, low edge of dip,
+high edge of dip, and high mass cutoff, respectively (<span class="math notranslate nohighlight">\(\eta_i\)</span>).</p>
+</dd>
+<dt><strong>A: float</strong></dt><dd><p>depth of the dip between NSmax and BHmin (A).</p>
 </dd>
 </dl>
 </dd>
@@ -159,8 +179,8 @@
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="gwpopulation.models.mass.two_component_primary_secondary_independent.html" class="btn btn-neutral float-left" title="gwpopulation.models.mass.two_component_primary_secondary_independent" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="gwpopulation.models.mass.BaseSmoothedMassDistribution.html" class="btn btn-neutral float-right" title="gwpopulation.models.mass.BaseSmoothedMassDistribution" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="gwpopulation.models.mass.power_law_dip_break.html" class="btn btn-neutral float-left" title="gwpopulation.models.mass.power_law_dip_break" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="gwpopulation.models.mass.power_law_mass.html" class="btn btn-neutral float-right" title="gwpopulation.models.mass.power_law_mass" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

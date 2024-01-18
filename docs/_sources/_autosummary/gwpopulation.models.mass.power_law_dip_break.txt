@@ -1,0 +1,6 @@
+gwpopulation.models.mass.power\_law\_dip\_break
+===============================================
+
+.. currentmodule:: gwpopulation.models.mass
+
+.. autofunction:: power_law_dip_break
