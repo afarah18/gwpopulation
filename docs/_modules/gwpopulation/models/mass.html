@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>gwpopulation.models.mass &mdash; GWPopulation 0.1.dev1+g8557a6e documentation</title>
+  <title>gwpopulation.models.mass &mdash; GWPopulation 0.1.dev1+g41e0f1f documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=fa44fd50" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=19f00094" />
 
@@ -14,7 +14,7 @@
   
         <script src="../../../_static/jquery.js?v=5d32c60e"></script>
         <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../../../_static/documentation_options.js?v=95ef20cb"></script>
+        <script src="../../../_static/documentation_options.js?v=58576958"></script>
         <script src="../../../_static/doctools.js?v=888ff710"></script>
         <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
@@ -100,8 +100,9 @@
 
 <div class="viewcode-block" id="power_law_dip_break_1d">
 <a class="viewcode-back" href="../../../_autosummary/gwpopulation.models.mass.power_law_dip_break_1d.html#gwpopulation.models.mass.power_law_dip_break_1d">[docs]</a>
-<span class="k">def</span> <span class="nf">power_law_dip_break_1d</span><span class="p">(</span><span class="n">mass</span><span class="p">,</span> <span class="n">A</span><span class="p">,</span> <span class="n">NSmin</span><span class="p">,</span> <span class="n">NSmax</span><span class="p">,</span> <span class="n">BHmin</span><span class="p">,</span> <span class="n">BHmax</span><span class="p">,</span> 
-                   <span class="n">n0</span><span class="p">,</span> <span class="n">n1</span><span class="p">,</span> <span class="n">n2</span><span class="p">,</span> <span class="n">n3</span><span class="p">,</span> <span class="n">mbreak</span><span class="p">,</span> <span class="n">alpha_1</span><span class="p">,</span> <span class="n">alpha_2</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">power_law_dip_break_1d</span><span class="p">(</span>
+    <span class="n">mass</span><span class="p">,</span> <span class="n">A</span><span class="p">,</span> <span class="n">NSmin</span><span class="p">,</span> <span class="n">NSmax</span><span class="p">,</span> <span class="n">BHmin</span><span class="p">,</span> <span class="n">BHmax</span><span class="p">,</span> <span class="n">n0</span><span class="p">,</span> <span class="n">n1</span><span class="p">,</span> <span class="n">n2</span><span class="p">,</span> <span class="n">n3</span><span class="p">,</span> <span class="n">mbreak</span><span class="p">,</span> <span class="n">alpha_1</span><span class="p">,</span> <span class="n">alpha_2</span>
+<span class="p">):</span>
 <span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    the single-mass distribution considered in Fishbach, Essick, Holz. Does</span>
 <span class="sd">    Matter Matter? ApJ Lett 899, 1 (2020) : arXiv:2006.13178</span>
@@ -150,12 +151,15 @@
 <span class="sd">        depth of the dip between NSmax and BHmin (A).</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">mbreak</span> <span class="o">=</span> <span class="n">BHmin</span>
-    <span class="n">prob</span> <span class="o">=</span> <span class="n">xp</span><span class="o">.</span><span class="n">where</span><span class="p">((</span><span class="n">mass</span> <span class="o">&gt;=</span> <span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="n">mass</span> <span class="o">&lt;=</span> <span class="mi">100</span><span class="p">),</span> 
-                    <span class="p">(</span><span class="mf">1.0</span> <span class="o">-</span> <span class="n">A</span><span class="o">/</span><span class="p">((</span><span class="mi">1</span> <span class="o">+</span> <span class="p">(</span><span class="n">NSmax</span><span class="o">/</span><span class="n">mass</span><span class="p">)</span><span class="o">**</span><span class="n">n1</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="p">(</span><span class="n">mass</span><span class="o">/</span><span class="n">BHmin</span><span class="p">)</span><span class="o">**</span><span class="n">n2</span><span class="p">)))</span> \
-                       <span class="o">/</span> <span class="p">((</span><span class="mi">1</span> <span class="o">+</span> <span class="p">(</span><span class="n">mass</span><span class="o">/</span><span class="n">BHmax</span><span class="p">)</span><span class="o">**</span><span class="n">n3</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="p">(</span><span class="n">NSmin</span><span class="o">/</span><span class="n">mass</span><span class="p">)</span><span class="o">**</span><span class="n">n0</span><span class="p">))</span>
-                       <span class="o">*</span> <span class="p">(</span><span class="n">mass</span><span class="o">/</span><span class="n">mbreak</span><span class="p">)</span> <span class="o">**</span> <span class="n">xp</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">mass</span> <span class="o">&lt;=</span> <span class="n">mbreak</span><span class="p">,</span> <span class="n">alpha_1</span><span class="p">,</span> <span class="n">alpha_2</span><span class="p">),</span>
-                    <span class="mf">0.</span><span class="p">)</span>
+    <span class="n">prob</span> <span class="o">=</span> <span class="n">xp</span><span class="o">.</span><span class="n">where</span><span class="p">(</span>
+        <span class="p">(</span><span class="n">mass</span> <span class="o">&gt;=</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">mass</span> <span class="o">&lt;=</span> <span class="mi">100</span><span class="p">),</span>
+        <span class="p">(</span><span class="mf">1.0</span> <span class="o">-</span> <span class="n">A</span> <span class="o">/</span> <span class="p">((</span><span class="mi">1</span> <span class="o">+</span> <span class="p">(</span><span class="n">NSmax</span> <span class="o">/</span> <span class="n">mass</span><span class="p">)</span> <span class="o">**</span> <span class="n">n1</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="p">(</span><span class="n">mass</span> <span class="o">/</span> <span class="n">BHmin</span><span class="p">)</span> <span class="o">**</span> <span class="n">n2</span><span class="p">)))</span>
+        <span class="o">/</span> <span class="p">((</span><span class="mi">1</span> <span class="o">+</span> <span class="p">(</span><span class="n">mass</span> <span class="o">/</span> <span class="n">BHmax</span><span class="p">)</span> <span class="o">**</span> <span class="n">n3</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="p">(</span><span class="n">NSmin</span> <span class="o">/</span> <span class="n">mass</span><span class="p">)</span> <span class="o">**</span> <span class="n">n0</span><span class="p">))</span>
+        <span class="o">*</span> <span class="p">(</span><span class="n">mass</span> <span class="o">/</span> <span class="n">mbreak</span><span class="p">)</span> <span class="o">**</span> <span class="n">xp</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">mass</span> <span class="o">&lt;=</span> <span class="n">mbreak</span><span class="p">,</span> <span class="n">alpha_1</span><span class="p">,</span> <span class="n">alpha_2</span><span class="p">),</span>
+        <span class="mf">0.0</span><span class="p">,</span>
+    <span class="p">)</span>
     <span class="k">return</span> <span class="n">prob</span></div>
+
 
 
 <div class="viewcode-block" id="double_power_law_primary_mass">
@@ -265,10 +269,24 @@
     <span class="k">return</span> <span class="n">prob</span></div>
 
 
+
 <div class="viewcode-block" id="power_law_dip_break">
 <a class="viewcode-back" href="../../../_autosummary/gwpopulation.models.mass.power_law_dip_break.html#gwpopulation.models.mass.power_law_dip_break">[docs]</a>
-<span class="k">def</span> <span class="nf">power_law_dip_break</span><span class="p">(</span><span class="n">dataset</span><span class="p">,</span> <span class="n">A</span><span class="p">,</span> <span class="n">NSmin</span><span class="p">,</span> <span class="n">NSmax</span><span class="p">,</span>
-    <span class="n">BHmin</span><span class="p">,</span> <span class="n">BHmax</span><span class="p">,</span> <span class="n">n0</span><span class="p">,</span> <span class="n">n1</span><span class="p">,</span> <span class="n">n2</span><span class="p">,</span> <span class="n">n3</span><span class="p">,</span> <span class="n">mbreak</span><span class="p">,</span> <span class="n">alpha_1</span><span class="p">,</span> <span class="n">alpha_2</span><span class="p">,</span> <span class="n">beta_q</span>
+<span class="k">def</span> <span class="nf">power_law_dip_break</span><span class="p">(</span>
+    <span class="n">dataset</span><span class="p">,</span>
+    <span class="n">A</span><span class="p">,</span>
+    <span class="n">NSmin</span><span class="p">,</span>
+    <span class="n">NSmax</span><span class="p">,</span>
+    <span class="n">BHmin</span><span class="p">,</span>
+    <span class="n">BHmax</span><span class="p">,</span>
+    <span class="n">n0</span><span class="p">,</span>
+    <span class="n">n1</span><span class="p">,</span>
+    <span class="n">n2</span><span class="p">,</span>
+    <span class="n">n3</span><span class="p">,</span>
+    <span class="n">mbreak</span><span class="p">,</span>
+    <span class="n">alpha_1</span><span class="p">,</span>
+    <span class="n">alpha_2</span><span class="p">,</span>
+    <span class="n">beta_q</span><span class="p">,</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Two-dimenstional mass distribution considered in Fishbach, Essick, Holz. Does</span>
@@ -278,7 +296,7 @@
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    dataset: dict</span>
-<span class="sd">        Dictionary of numpy arrays for &#39;mass_1&#39; (:math:`m_1`) and </span>
+<span class="sd">        Dictionary of numpy arrays for &#39;mass_1&#39; (:math:`m_1`) and</span>
 <span class="sd">        &#39;mass_ratio&#39; q (:math:`m_2=m_1*q`).</span>
 <span class="sd">    alpha_1: float</span>
 <span class="sd">        Powerlaw exponent for compact object below break (:math:`\alpha_1`).</span>
@@ -286,7 +304,7 @@
 <span class="sd">        Powerlaw exponent for compact object above break (:math:`\alpha_2`).</span>
 <span class="sd">    mbreak: float</span>
 <span class="sd">        Mass at which the power law exponent switches from alpha_1 to alpha_2.</span>
-<span class="sd">        Pinned for now to be at BHmin (:math:`\m_{break}`). </span>
+<span class="sd">        Pinned for now to be at BHmin (:math:`\m_{break}`).</span>
 <span class="sd">    NSmin: float</span>
 <span class="sd">        Minimum compact object mass (:math:`m_\min`).</span>
 <span class="sd">    NSmax: float</span>
@@ -297,18 +315,44 @@
 <span class="sd">        Maximum mass in the powerlaw distributed component (:math:`m_\max`).</span>
 <span class="sd">    n{0,1,2,3}: float</span>
 <span class="sd">        Exponents to set the sharpness of the low mass cutoff, low edge of dip,</span>
-<span class="sd">        high edge of dip, and high mass cutoff, respectively (:math:`\eta_i`). </span>
+<span class="sd">        high edge of dip, and high mass cutoff, respectively (:math:`\eta_i`).</span>
 <span class="sd">    A: float</span>
 <span class="sd">        depth of the dip between NSmax and BHmin (A).</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="n">p_m1</span> <span class="o">=</span> <span class="n">power_law_dip_break_1d</span><span class="p">(</span><span class="n">dataset</span><span class="p">[</span><span class="s2">&quot;mass_1&quot;</span><span class="p">],</span> <span class="n">A</span><span class="p">,</span> <span class="n">NSmin</span><span class="p">,</span> <span class="n">NSmax</span><span class="p">,</span> <span class="n">BHmin</span><span class="p">,</span> <span class="n">BHmax</span><span class="p">,</span> 
-                          <span class="n">n0</span><span class="p">,</span> <span class="n">n1</span><span class="p">,</span> <span class="n">n2</span><span class="p">,</span> <span class="n">n3</span><span class="p">,</span> <span class="n">mbreak</span><span class="p">,</span> <span class="n">alpha_1</span><span class="p">,</span> <span class="n">alpha_2</span><span class="p">)</span>
-    <span class="n">p_m2</span> <span class="o">=</span> <span class="n">power_law_dip_break_1d</span><span class="p">(</span><span class="n">dataset</span><span class="p">[</span><span class="s2">&quot;mass_2&quot;</span><span class="p">],</span> <span class="n">A</span><span class="p">,</span> <span class="n">NSmin</span><span class="p">,</span> 
-                          <span class="n">NSmax</span><span class="p">,</span> <span class="n">BHmin</span><span class="p">,</span> <span class="n">BHmax</span><span class="p">,</span> <span class="n">n0</span><span class="p">,</span> <span class="n">n1</span><span class="p">,</span> <span class="n">n2</span><span class="p">,</span> <span class="n">n3</span><span class="p">,</span> <span class="n">mbreak</span><span class="p">,</span> 
-                          <span class="n">alpha_1</span><span class="p">,</span> <span class="n">alpha_2</span><span class="p">)</span>
+    <span class="n">p_m1</span> <span class="o">=</span> <span class="n">power_law_dip_break_1d</span><span class="p">(</span>
+        <span class="n">dataset</span><span class="p">[</span><span class="s2">&quot;mass_1&quot;</span><span class="p">],</span>
+        <span class="n">A</span><span class="p">,</span>
+        <span class="n">NSmin</span><span class="p">,</span>
+        <span class="n">NSmax</span><span class="p">,</span>
+        <span class="n">BHmin</span><span class="p">,</span>
+        <span class="n">BHmax</span><span class="p">,</span>
+        <span class="n">n0</span><span class="p">,</span>
+        <span class="n">n1</span><span class="p">,</span>
+        <span class="n">n2</span><span class="p">,</span>
+        <span class="n">n3</span><span class="p">,</span>
+        <span class="n">mbreak</span><span class="p">,</span>
+        <span class="n">alpha_1</span><span class="p">,</span>
+        <span class="n">alpha_2</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">p_m2</span> <span class="o">=</span> <span class="n">power_law_dip_break_1d</span><span class="p">(</span>
+        <span class="n">dataset</span><span class="p">[</span><span class="s2">&quot;mass_2&quot;</span><span class="p">],</span>
+        <span class="n">A</span><span class="p">,</span>
+        <span class="n">NSmin</span><span class="p">,</span>
+        <span class="n">NSmax</span><span class="p">,</span>
+        <span class="n">BHmin</span><span class="p">,</span>
+        <span class="n">BHmax</span><span class="p">,</span>
+        <span class="n">n0</span><span class="p">,</span>
+        <span class="n">n1</span><span class="p">,</span>
+        <span class="n">n2</span><span class="p">,</span>
+        <span class="n">n3</span><span class="p">,</span>
+        <span class="n">mbreak</span><span class="p">,</span>
+        <span class="n">alpha_1</span><span class="p">,</span>
+        <span class="n">alpha_2</span><span class="p">,</span>
+    <span class="p">)</span>
     <span class="n">prob</span> <span class="o">=</span> <span class="n">_primary_secondary_power_law_pairing</span><span class="p">(</span><span class="n">dataset</span><span class="p">,</span> <span class="n">p_m1</span><span class="p">,</span> <span class="n">p_m2</span><span class="p">,</span> <span class="n">beta_q</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">prob</span></div>
+
 
 
 <div class="viewcode-block" id="double_power_law_primary_power_law_mass_ratio">
@@ -397,14 +441,15 @@
 <span class="k">def</span> <span class="nf">_primary_secondary_general</span><span class="p">(</span><span class="n">dataset</span><span class="p">,</span> <span class="n">p_m1</span><span class="p">,</span> <span class="n">p_m2</span><span class="p">):</span>
     <span class="k">return</span> <span class="n">p_m1</span> <span class="o">*</span> <span class="n">p_m2</span> <span class="o">*</span> <span class="p">(</span><span class="n">dataset</span><span class="p">[</span><span class="s2">&quot;mass_1&quot;</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="n">dataset</span><span class="p">[</span><span class="s2">&quot;mass_2&quot;</span><span class="p">])</span> <span class="o">*</span> <span class="mi">2</span>
 
+
 <span class="k">def</span> <span class="nf">_primary_secondary_power_law_pairing</span><span class="p">(</span><span class="n">dataset</span><span class="p">,</span> <span class="n">p_m1</span><span class="p">,</span> <span class="n">p_m2</span><span class="p">,</span> <span class="n">beta_pair</span><span class="p">):</span>
-<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot; Utility to create two-dimensional mass distributions with a </span>
-<span class="sd">    pairing function that is a power law in mass ratio (as described </span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Utility to create two-dimensional mass distributions with a</span>
+<span class="sd">    pairing function that is a power law in mass ratio (as described</span>
 <span class="sd">    in https://ui.adsabs.harvard.edu/abs/2020ApJ...891L..27F/abstract).</span>
 <span class="sd">    The one-dimensional mass distributions can be arbitrarily described</span>
 <span class="sd">    by `p_m1` and `p_m2`</span>
 <span class="sd">    .. math::</span>
-<span class="sd">        p(m_1, m_2) &amp;= p_1(m_1) p_2(m_2) q^{\beta} : m_1 \geq m_2 </span>
+<span class="sd">        p(m_1, m_2) &amp;= p_1(m_1) p_2(m_2) q^{\beta} : m_1 \geq m_2</span>
 
 <span class="sd">        q &amp;= m_2/m_1</span>
 
@@ -413,16 +458,16 @@
 <span class="sd">    dataset: dict</span>
 <span class="sd">        Dictionary of numpy arrays for &#39;mass_1&#39; (:math:`m_1`) and &#39;mass_2&#39; (:math:`m_2`).</span>
 <span class="sd">    p_m1: array</span>
-<span class="sd">        Array of shape `dataset[&#39;mass_1&#39;].shape` that gives the one-dimensional </span>
+<span class="sd">        Array of shape `dataset[&#39;mass_1&#39;].shape` that gives the one-dimensional</span>
 <span class="sd">        probability of the primary mass</span>
 <span class="sd">    p_m2: array</span>
-<span class="sd">        Array of shape `dataset[&#39;mass_2&#39;].shape` that gives the one-dimensional </span>
+<span class="sd">        Array of shape `dataset[&#39;mass_2&#39;].shape` that gives the one-dimensional</span>
 <span class="sd">        probability of the secondary mass. `p_m1.shape` should equal `p_m2.shape`</span>
 <span class="sd">    beta_pair: float</span>
 <span class="sd">        Power law exponent for the mass ratio pairing function</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">q</span> <span class="o">=</span> <span class="n">dataset</span><span class="p">[</span><span class="s2">&quot;mass_2&quot;</span><span class="p">]</span><span class="o">/</span><span class="n">dataset</span><span class="p">[</span><span class="s2">&quot;mass_1&quot;</span><span class="p">]</span>
-    <span class="k">return</span> <span class="n">_primary_secondary_general</span><span class="p">(</span><span class="n">dataset</span><span class="p">,</span> <span class="n">p_m1</span><span class="p">,</span> <span class="n">p_m2</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">q</span> <span class="o">**</span> <span class="n">beta_pair</span><span class="p">)</span>
+    <span class="n">q</span> <span class="o">=</span> <span class="n">dataset</span><span class="p">[</span><span class="s2">&quot;mass_2&quot;</span><span class="p">]</span> <span class="o">/</span> <span class="n">dataset</span><span class="p">[</span><span class="s2">&quot;mass_1&quot;</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">_primary_secondary_general</span><span class="p">(</span><span class="n">dataset</span><span class="p">,</span> <span class="n">p_m1</span><span class="p">,</span> <span class="n">p_m2</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">q</span><span class="o">**</span><span class="n">beta_pair</span><span class="p">)</span>
 
 
 <div class="viewcode-block" id="power_law_primary_secondary_independent">
