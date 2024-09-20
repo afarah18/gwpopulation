@@ -14,8 +14,6 @@ jobs:
       - name: TeX and PDF
         uses: openjournals/openjournals-draft-action@master
         with:
-          journal: joss
-          paper-path: joss/paper.md
           args: '-k joss/paper.md'
         env:
           GIT_SHA: $GITHUB_SHA
