@@ -16,7 +16,7 @@ jobs:
         with:
           journal: joss
           paper-path: joss/paper.md
-          args: '-k paper/paper.md'
+          args: '-k joss/paper.md'
         env:
           GIT_SHA: $GITHUB_SHA
           JOURNAL: joss
