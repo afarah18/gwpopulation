@@ -12,7 +12,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
       - name: TeX and PDF
-        uses: openjournals/openjournals-draft-action@master
+        uses: docker://openjournals/paperdraft:latest
         with:
           args: '-k joss/paper.md'
         env:
