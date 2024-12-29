@@ -391,8 +391,17 @@ def toy_vt_calculator(kwargs):
 <h2>Define the likelihood<a class="headerlink" href="#Define-the-likelihood" title="Link to this heading"></a></h2>
 <p>The <code class="docutils literal notranslate"><span class="pre">HyperparameterLikelihood</span></code> marginalises over the local merger rate, with a uniform-in-log prior.</p>
 <p>To also estimate the rate use the <code class="docutils literal notranslate"><span class="pre">RateLikelilhood</span></code> (see further on in the notebook).</p>
-<p>We provide: - <code class="docutils literal notranslate"><span class="pre">posteriors</span></code>: a list of <code class="docutils literal notranslate"><span class="pre">pandas</span></code> DataFrames - <code class="docutils literal notranslate"><span class="pre">hyper_prior</span></code>: our population model, as defined above - <code class="docutils literal notranslate"><span class="pre">selection_function</span></code>: anything which evaluates the selection function</p>
-<p>We can also provide: - <code class="docutils literal notranslate"><span class="pre">conversion_function</span></code>: this converts between the parameters we sample in and those needed by the model, e.g., for sampling in the mean and variance of the beta distribution - <code class="docutils literal notranslate"><span class="pre">max_samples</span></code>: the maximum number of samples to use from each posterior, this defaults to the length of the shortest posterior</p>
+<p>We provide:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">posteriors</span></code>: a list of <code class="docutils literal notranslate"><span class="pre">pandas</span></code> DataFrames</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">hyper_prior</span></code>: our population model, as defined above</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">selection_function</span></code>: anything which evaluates the selection function</p></li>
+</ul>
+<p>We can also provide:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">conversion_function</span></code>: this converts between the parameters we sample in and those needed by the model, e.g., for sampling in the mean and variance of the beta distribution</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">max_samples</span></code>: the maximum number of samples to use from each posterior, this defaults to the length of the shortest posterior</p></li>
+</ul>
 <p>We may get a warning telling us <code class="docutils literal notranslate"><span class="pre">cupy</span></code> is not available and so <code class="docutils literal notranslate"><span class="pre">numpy</span></code> is for the likelihood evaluation. This will go away if you have a GPU and <code class="docutils literal notranslate"><span class="pre">cupy</span></code> installed.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[33]:
@@ -566,7 +575,12 @@ plt.close()
 <p>Just as an example we’ll use a Gaussian distribution bounded between <span class="math notranslate nohighlight">\([1 M_{\odot}, 2 M_{\odot}]\)</span>.</p>
 <div class="math notranslate nohighlight">
 \[p(m_1, m_2) = N \exp \left(- \frac{\left((m_1 - \mu)^2 + (m_2 - \mu)^2\right)}{2 \sigma^2}\right) \quad : \quad 1 \leq m_2 \leq m_1 \leq 2\]</div>
-<p>We see that this function takes three arguments: - <code class="docutils literal notranslate"><span class="pre">dataset</span></code>: this is common to all of the population models in <code class="docutils literal notranslate"><span class="pre">gwpopulation</span></code>, it is a dictionary containing the data to be evaluated, here it is assumed to contain entries for <code class="docutils literal notranslate"><span class="pre">mass_1</span></code> and <code class="docutils literal notranslate"><span class="pre">mass_2</span></code>, the <em>source-frame</em> masses. - <code class="docutils literal notranslate"><span class="pre">mu_bns</span></code>: the peak of the bns mass distribution. - <code class="docutils literal notranslate"><span class="pre">sigma_bns</span></code>: the width of the bns mass distribution.</p>
+<p>We see that this function takes three arguments:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">dataset</span></code>: this is common to all of the population models in <code class="docutils literal notranslate"><span class="pre">gwpopulation</span></code>, it is a dictionary containing the data to be evaluated, here it is assumed to contain entries for <code class="docutils literal notranslate"><span class="pre">mass_1</span></code> and <code class="docutils literal notranslate"><span class="pre">mass_2</span></code>, the <em>source-frame</em> masses.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">mu_bns</span></code>: the peak of the bns mass distribution.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">sigma_bns</span></code>: the width of the bns mass distribution.</p></li>
+</ul>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[38]:
 </pre></div>
@@ -613,7 +627,12 @@ posterior[&quot;mass_2&quot;] = posterior[&quot;mass_2_det&quot;] / (1 + posteri
 <section id="Define-the-new-likelihood">
 <h2>Define the new likelihood<a class="headerlink" href="#Define-the-new-likelihood" title="Link to this heading"></a></h2>
 <p>We use the same likelihood as before.</p>
-<p><em>Note</em>: - This time we cast our posterior to a list while creating the likelihood. - We pass the function rather than a <code class="docutils literal notranslate"><span class="pre">Model</span></code> object as before, <code class="docutils literal notranslate"><span class="pre">bilby</span></code> will turn this into a <code class="docutils literal notranslate"><span class="pre">Model</span></code> for internal use. - We’ve removed the selection and conversion functions as they aren’t needed here (yes, a selection function is technically needed).</p>
+<p><em>Note</em>:</p>
+<ul class="simple">
+<li><p>This time we cast our posterior to a list while creating the likelihood.</p></li>
+<li><p>We pass the function rather than a <code class="docutils literal notranslate"><span class="pre">Model</span></code> object as before, <code class="docutils literal notranslate"><span class="pre">bilby</span></code> will turn this into a <code class="docutils literal notranslate"><span class="pre">Model</span></code> for internal use.</p></li>
+<li><p>We’ve removed the selection and conversion functions as they aren’t needed here (yes, a selection function is technically needed).</p></li>
+</ul>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[40]:
 </pre></div>
